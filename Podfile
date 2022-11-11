@@ -7,4 +7,6 @@ target 'Netflix' do
 
   # Pods for Netflix
 pod 'SkeletonView'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
 end
