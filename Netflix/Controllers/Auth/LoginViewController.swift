@@ -89,6 +89,9 @@ class LoginViewController: UIViewController {
         addConstraints()
         loginButton.addTarget(self, action: #selector(performTabbar(_:)), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(performRegister(_:)), for: .touchUpInside)
+        
+        emailTextField.text = "babekqadirli@gmail.com"
+        passwordTextField.text = "babek123"
 
     }
     

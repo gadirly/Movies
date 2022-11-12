@@ -36,6 +36,8 @@ class HeroHeaderUiView: UIView {
     private let heroImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         return imageView
     }()

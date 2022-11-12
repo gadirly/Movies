@@ -33,6 +33,8 @@ class HomeViewController: UIViewController {
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        table.separatorStyle = .none
+      
         return table
     }()
 
@@ -41,6 +43,8 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
+        
+        
         
         
         homeFeedTable.delegate = self
@@ -101,6 +105,7 @@ class HomeViewController: UIViewController {
         ]
         
         navigationController?.navigationBar.tintColor = .label
+      
         
     }
     
