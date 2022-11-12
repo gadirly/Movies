@@ -85,7 +85,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = MoviePreviewViewController()
+        let vc = PreviewTableViewController()
 
         let movie = upcomingMovies[indexPath.row]
         
@@ -96,10 +96,11 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
                     DispatchQueue.main.async {
                         
                     
-                    vc.configure(with: MoviePreviewViewModel(title: movie.original_title ?? "", youtubeView: video, movieOverview: movie.overview ?? ""))
+                        vc.configure(with: movie, video: video)
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }
                 case.failure(let error):
+                    print("Error burdadir")
                     print(error.localizedDescription)
                 }
             }

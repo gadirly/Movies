@@ -188,7 +188,7 @@ class APICaller {
         }
       
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
-            
+            print(url)
             guard let data = data, error == nil else {return}
             
             do {
@@ -197,6 +197,7 @@ class APICaller {
                 completion(.success(result.items[0]))
             }
             catch {
+                
                 completion(.failure(error))
             }
             

@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         table.separatorStyle = .none
-      
+        
         return table
     }()
 
