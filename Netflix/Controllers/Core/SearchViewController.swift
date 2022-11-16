@@ -86,6 +86,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableVIewCell.identifier) as? MovieTableVIewCell else {return UITableViewCell()}
         
+        
+        
         let movie = upcomingMovies[indexPath.row]
         cell.configure(with: MovieViewModel(titleName: movie.original_title ?? "", posterUrl: movie.poster_path ?? "", overView: upcomingMovies[indexPath.row].overview ?? ""))
         

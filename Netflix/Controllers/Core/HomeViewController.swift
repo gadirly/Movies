@@ -56,6 +56,8 @@ class HomeViewController: UIViewController {
         headerView = HeroHeaderUiView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
         homeFeedTable.tableHeaderView = headerView
         
+        headerView?.delegate = self
+        
         configureHeroHeaderView()
         
       
@@ -70,9 +72,18 @@ class HomeViewController: UIViewController {
                 let randomMovie = movie.randomElement()
                 self?.randomTrendingMovie = randomMovie
                 let viewModel = MovieViewModel(titleName: "", posterUrl: randomMovie?.poster_path ?? "", overView: "")
+                guard let title = randomMovie?.original_title, let overview = randomMovie?.overview else {
+                    return
+                }
+                APICaller.shared.getMovie(with: "\(title) trailer") { result in
+                    switch result {
+                    case.success(let video):
+                        self?.headerView?.configure(with: viewModel, previewModel: MoviePreviewViewModel(title: title, youtubeView: video, movieOverview: overview))
+                    case.failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
                 
-                
-               self?.headerView?.configure(with: viewModel)
             case.failure(let error):
                 print(error.localizedDescription)
             }
@@ -222,14 +233,31 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension HomeViewController: CollectionViewTableViewCellDelegate {
+extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiViewDelegate {
+    func heroHeaderUiViewDidTapStart(viewMode: MoviePreviewViewModel) {
+        print("delegate gelir")
+        DispatchQueue.main.async { [weak self] in
+            let vc = PreviewTableViewController()
+            vc.configure(with: viewMode)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+
+    
     func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewMode: MoviePreviewViewModel) {
         
+        
         DispatchQueue.main.async { [weak self] in
-            let vc = MoviePreviewViewController()
+            let vc = PreviewTableViewController()
             vc.configure(with: viewMode)
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
     }
+    
+    
 }
+
+
+

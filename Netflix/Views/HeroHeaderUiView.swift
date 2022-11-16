@@ -7,7 +7,17 @@
 
 import UIKit
 
+
+
+protocol HeroHeaderUiViewDelegate: AnyObject {
+    func heroHeaderUiViewDidTapStart (viewMode: MoviePreviewViewModel)
+}
+
 class HeroHeaderUiView: UIView {
+    
+    var movieViewModel: MoviePreviewViewModel?
+    
+    weak var delegate: HeroHeaderUiViewDelegate?
     
     private let playButton: UIButton = {
         let button = UIButton()
@@ -61,12 +71,15 @@ class HeroHeaderUiView: UIView {
         addSubview(playButton)
         addSubview(downloadButton)
         applyConstraints()
+        
+        playButton.addTarget(self, action: #selector(performStart(_:)), for: .touchUpInside)
     }
     
-    public func configure(with model: MovieViewModel) {
+    public func configure(with model: MovieViewModel, previewModel: MoviePreviewViewModel) {
         print("Ishleyir")
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.posterUrl)") else {return}
-       
+        
+        movieViewModel = previewModel
   
         heroImageView.sd_setImage(with: url, completed: nil)
     }
@@ -97,6 +110,18 @@ class HeroHeaderUiView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    @objc func performStart(_ sender: UIButton) {
+    
+        guard let movieViewModel = movieViewModel else {
+            
+            return
+        }
+        
+        print(movieViewModel.title)
+        delegate?.heroHeaderUiViewDidTapStart(viewMode: movieViewModel)
+        
     }
 }
 

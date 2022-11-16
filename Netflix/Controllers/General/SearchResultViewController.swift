@@ -8,6 +8,8 @@
 import UIKit
 
 
+
+
 class SearchResultViewController: UIViewController {
     
     public var movie: [Movie] = [Movie]()
@@ -50,8 +52,36 @@ extension SearchResultViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.identifier, for: indexPath) as? TitleCollectionViewCell else {return UICollectionViewCell()}
         
+        
+        
         cell.configure(with: movie[indexPath.row].poster_path ?? "")
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let vc = PreviewTableViewController()
+        let selectedMovie = movie[indexPath.row]
+        
+        guard let originalTitle = selectedMovie.original_title, let overview = selectedMovie.overview else {
+            return
+        }
+        
+        
+            APICaller.shared.getMovie(with: "\(originalTitle) trailer") { [weak self ]result in
+                
+                switch result {
+                case.success(let video):
+                    DispatchQueue.main.async {
+                        vc.configure(with: MoviePreviewViewModel(title: originalTitle, youtubeView: video, movieOverview: overview))
+                        self?.present(vc, animated: true)
+                    }
+                case.failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        
     }
     
     

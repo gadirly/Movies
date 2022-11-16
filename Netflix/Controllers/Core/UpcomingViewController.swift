@@ -95,8 +95,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
                 case.success(let video):
                     DispatchQueue.main.async {
                         
-                    
-                        vc.configure(with: movie, video: video)
+                        vc.configure(with: MoviePreviewViewModel(title: movie.original_title ?? "", youtubeView: video, movieOverview: movie.overview ?? ""))
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }
                 case.failure(let error):

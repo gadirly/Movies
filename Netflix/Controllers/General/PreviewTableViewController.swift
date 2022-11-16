@@ -9,7 +9,7 @@ import UIKit
 
 class PreviewTableViewController: UIViewController {
     
-    private var movie: Movie?
+    private var movie: MoviePreviewViewModel?
     private var video: VideoElement?
     
     private var previewTable: UITableView = {
@@ -35,10 +35,9 @@ class PreviewTableViewController: UIViewController {
         previewTable.frame = view.bounds
     }
     
-    func configure(with model: Movie, video: VideoElement) {
+    func configure(with model: MoviePreviewViewModel) {
         
         self.movie = model
-        self.video = video
         
     }
     
@@ -58,7 +57,11 @@ extension PreviewTableViewController:  UITableViewDelegate, UITableViewDataSourc
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: WebVIewTableViewCell.identifier) as? WebVIewTableViewCell else {return UITableViewCell()}
             
-            cell.configure(with: MoviePreviewViewModel(title: movie?.original_title ?? "", youtubeView: video! , movieOverview: movie?.overview ?? ""))
+            guard let movie = movie else {
+                return UITableViewCell()
+            }
+            
+            cell.configure(with: movie)
             
             return cell
         }
@@ -68,7 +71,10 @@ extension PreviewTableViewController:  UITableViewDelegate, UITableViewDataSourc
                 return UITableViewCell()
             }
             
-            cell.configure(with: MoviePreviewViewModel(title: movie?.original_title ?? "", youtubeView: video! , movieOverview: movie?.overview ?? ""))
+            guard let movie = movie else {
+                return UITableViewCell()
+            }
+            cell.configure(with: movie)
             
             return cell
         }

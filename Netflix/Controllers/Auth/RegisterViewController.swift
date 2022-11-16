@@ -158,32 +158,31 @@ class RegisterViewController: UIViewController {
     @objc func performTabbar(_ sender: UIButton) {
         
         guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
+              let password = passwordTextField.text, !password.isEmpty, let password2 = password2TextField.text, !password2.isEmpty else {
             print("Missing fields")
             return
         }
         
-        //Get auth instance
-        //attempt sign in
-        //if failure, present alert o create account
-        //if user continues, create account
+        if password != password2 {
+            
+            showCreateAccount(title: "Xəta", message: "Şifrələr uyğun gəlmir")
+            return
+        }
         
         
-        //check sign in on appp launch
-        //allow user to sign out with button
         
-        
-        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] resut, error in
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] resut, error in
             guard let strongSelf = self else {
                 return
             }
             
             guard error == nil else {
-                strongSelf.showCreateAccount()
+                strongSelf.showCreateAccount(title: "Xəta", message: "Hesab yaratmaq mümkün olmadı")
                 return
             }
             
             print("User signed in")
+            strongSelf.showCreateAccount(title: "Hesab yaradıldı", message: "Yeni hesab yaradıldı. Xahiş olunur giriş edin")
             
             let tabVC = MainTabBarViewController()
             tabVC.modalPresentationStyle = .fullScreen
@@ -196,10 +195,9 @@ class RegisterViewController: UIViewController {
         
     }
     
-    func showCreateAccount() {
-        let alert = UIAlertController(title: "Hesab Yarat", message: "Belə hesab mövcud deyil. Yeni hesab yaratmaq istəyirsiniz?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Davam et", style: .default))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+    func showCreateAccount(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Oldu", style: .cancel, handler: { _ in
             
         }))
         
