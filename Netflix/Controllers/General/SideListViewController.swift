@@ -13,7 +13,7 @@ class SideListViewController: UIViewController {
     private var profilePicture: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "profilepic")
-        image.layer.borderWidth = 1.0
+        image.layer.borderWidth = 2.0
         image.layer.masksToBounds = false
         image.layer.borderColor = UIColor.red.cgColor
         
