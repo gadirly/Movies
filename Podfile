@@ -9,4 +9,5 @@ target 'Netflix' do
 pod 'SkeletonView'
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
+pod 'SideMenu'
 end

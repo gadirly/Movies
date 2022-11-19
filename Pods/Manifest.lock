@@ -87,11 +87,13 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
+  - SideMenu (6.5.0)
   - SkeletonView (1.30.4)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
+  - SideMenu
   - SkeletonView
 
 SPEC REPOS:
@@ -107,6 +109,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - PromisesObjC
+    - SideMenu
     - SkeletonView
 
 SPEC CHECKSUMS:
@@ -121,8 +124,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SkeletonView: 5a050f6411e697abd4cda0a8d767013399dccd69
 
-PODFILE CHECKSUM: 07097a79d159d74ab582b8d5e7f21513e6c8540d
+PODFILE CHECKSUM: c1ee4a9528861e6ea76fda309c0dc80f7014dfaa
 
 COCOAPODS: 1.11.3

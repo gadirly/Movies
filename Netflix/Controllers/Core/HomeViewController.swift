@@ -6,6 +6,11 @@
 //
 
 import UIKit
+import SideMenu
+
+protocol HomeViewControllerDelegate: AnyObject {
+    func heroHeaderUiViewDidTapStart (viewMode: MoviePreviewViewModel)
+}
 
 enum Sections: Int {
     case TrendingMovies = 0
@@ -16,6 +21,8 @@ enum Sections: Int {
 }
 
 class HomeViewController: UIViewController {
+    
+    var menu: SideMenuNavigationController?
     
     private var randomTrendingMovie: Movie?
     private var headerView: HeroHeaderUiView?
@@ -44,8 +51,11 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
         
-        
-        
+        menu = SideMenuNavigationController(rootViewController: SideListViewController())
+        menu?.leftSide = false
+        SideMenuManager.default.addPanGestureToPresent(toView: view)
+        SideMenuManager.default.rightMenuNavigationController = menu
+    
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
@@ -61,6 +71,10 @@ class HomeViewController: UIViewController {
         configureHeroHeaderView()
         
       
+    }
+    
+    public func backToRoot(){
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
 
@@ -111,7 +125,7 @@ class HomeViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
+            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: #selector(performSideMenu)),
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
         
@@ -119,6 +133,11 @@ class HomeViewController: UIViewController {
       
         
     }
+    
+    @objc func performSideMenu() {
+        present(menu!, animated: true, completion: nil)
+    }
+    
     
 
     override func viewDidLayoutSubviews() {
@@ -256,6 +275,8 @@ extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiV
         
     }
     
+    
+   
     
 }
 
