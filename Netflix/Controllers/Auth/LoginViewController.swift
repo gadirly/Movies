@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
     
     private var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Password"
+        textField.placeholder = "Şifrə"
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.autocorrectionType = UITextAutocorrectionType.no
@@ -107,6 +107,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+//        if Auth.auth().currentUser == nil {
+//            let tabVc = MainTabBarViewController()
+//            navigationController?.pushViewController(tabVc, animated: true)
+//        }
         emailTextField.becomeFirstResponder()
     }
     

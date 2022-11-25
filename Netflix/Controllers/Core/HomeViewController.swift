@@ -8,9 +8,7 @@
 import UIKit
 import SideMenu
 
-protocol HomeViewControllerDelegate: AnyObject {
-    func heroHeaderUiViewDidTapStart (viewMode: MoviePreviewViewModel)
-}
+
 
 enum Sections: Int {
     case TrendingMovies = 0
@@ -23,6 +21,8 @@ enum Sections: Int {
 class HomeViewController: UIViewController {
     
     var menu: SideMenuNavigationController?
+    
+  
     
     private var randomTrendingMovie: Movie?
     private var headerView: HeroHeaderUiView?
@@ -51,7 +51,10 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
         
-        menu = SideMenuNavigationController(rootViewController: SideListViewController())
+        var sideMenuVc = SideListViewController()
+        sideMenuVc.delegate = self
+        
+        menu = SideMenuNavigationController(rootViewController: sideMenuVc)
         menu?.leftSide = false
         SideMenuManager.default.addPanGestureToPresent(toView: view)
         SideMenuManager.default.rightMenuNavigationController = menu
@@ -74,7 +77,8 @@ class HomeViewController: UIViewController {
     }
     
     public func backToRoot(){
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.navigationController?.popToRootViewController(animated: true)
+       
     }
     
 
@@ -136,6 +140,8 @@ class HomeViewController: UIViewController {
     
     @objc func performSideMenu() {
         present(menu!, animated: true, completion: nil)
+  
+    
     }
     
     
@@ -252,7 +258,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiViewDelegate {
+extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiViewDelegate, SideListViewControllerDelegate {
+    func SideListViewControllerDidTapLogout() {
+        backToRoot()
+    }
+    
     func heroHeaderUiViewDidTapStart(viewMode: MoviePreviewViewModel) {
         print("delegate gelir")
         DispatchQueue.main.async { [weak self] in

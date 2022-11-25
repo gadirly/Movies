@@ -25,6 +25,38 @@ class RegisterViewController: UIViewController {
         return imageView
     }()
     
+    private var nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Ad"
+        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.autocapitalizationType = .none
+        textField.leftViewMode = .always
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        textField.keyboardType = UIKeyboardType.default
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private var surnameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Soyad"
+        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.autocapitalizationType = .none
+        textField.leftViewMode = .always
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        textField.keyboardType = UIKeyboardType.default
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     
     private var emailTextField: UITextField = {
         let textField = UITextField()
@@ -44,7 +76,7 @@ class RegisterViewController: UIViewController {
     
     private var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Password"
+        textField.placeholder = "Şifrə"
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.autocorrectionType = UITextAutocorrectionType.no
@@ -61,7 +93,7 @@ class RegisterViewController: UIViewController {
     
     private var password2TextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Password"
+        textField.placeholder = "Şifrəni təsdiqlə"
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.autocorrectionType = UITextAutocorrectionType.no
@@ -93,6 +125,8 @@ class RegisterViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .white
         view.backgroundColor = .systemBackground
         view.addSubview(headerImage)
+        view.addSubview(nameTextField)
+        view.addSubview(surnameTextField)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(password2TextField)
@@ -103,7 +137,7 @@ class RegisterViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        emailTextField.becomeFirstResponder()
+        nameTextField.becomeFirstResponder()
     }
     
     private func addConstraints() {
@@ -121,20 +155,32 @@ class RegisterViewController: UIViewController {
             headerImage.heightAnchor.constraint(equalToConstant: 50)
         ]
         
+        let nameTextFieldConstraints = [
+            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            nameTextField.topAnchor.constraint(equalTo: headerImage.bottomAnchor, constant: 20)
+        ]
+        
+        let surnameTextFieldConstraints = [
+            surnameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            surnameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 20)
+        ]
+        
         let emailTextFiedConstraints = [
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            emailTextField.topAnchor.constraint(equalTo: headerImage.bottomAnchor, constant: 30)
+            emailTextField.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: 20)
         ]
         
         let passwordTextFieldConstraints = [
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30)
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20)
         ]
         
         let password2TextFieldConstraints = [
-            password2TextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+            password2TextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
             password2TextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             password2TextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ]
@@ -143,11 +189,13 @@ class RegisterViewController: UIViewController {
         let loginButtonConstraints = [
             registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            registerButton.topAnchor.constraint(equalTo: password2TextField.bottomAnchor, constant: 30)
+            registerButton.topAnchor.constraint(equalTo: password2TextField.bottomAnchor, constant: 20)
         ]
         
         
         NSLayoutConstraint.activate(headerImageConstraints)
+        NSLayoutConstraint.activate(nameTextFieldConstraints)
+        NSLayoutConstraint.activate(surnameTextFieldConstraints)
         NSLayoutConstraint.activate(passwordTextFieldConstraints)
         NSLayoutConstraint.activate(emailTextFiedConstraints)
 //        NSLayoutConstraint.activate(headerViewConstraints)
@@ -157,7 +205,9 @@ class RegisterViewController: UIViewController {
     
     @objc func performTabbar(_ sender: UIButton) {
         
-        guard let email = emailTextField.text, !email.isEmpty,
+        guard let name = nameTextField.text, !name.isEmpty,
+              let surname = surnameTextField.text, !surname.isEmpty,
+              let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty, let password2 = password2TextField.text, !password2.isEmpty else {
             print("Missing fields")
             return
@@ -183,6 +233,9 @@ class RegisterViewController: UIViewController {
             
             print("User signed in")
             strongSelf.showCreateAccount(title: "Hesab yaradıldı", message: "Yeni hesab yaradıldı. Xahiş olunur giriş edin")
+            
+            print(name)
+            DBManager.shared.addUser(with: NetflixUser(firstName: name, lastName: surname, emailAddress: email))
             
             let tabVC = MainTabBarViewController()
             tabVC.modalPresentationStyle = .fullScreen

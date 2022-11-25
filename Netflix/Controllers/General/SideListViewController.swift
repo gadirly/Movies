@@ -8,7 +8,13 @@
 import UIKit
 import FirebaseAuth
 
+protocol SideListViewControllerDelegate: AnyObject {
+    func SideListViewControllerDidTapLogout()
+}
+
 class SideListViewController: UIViewController {
+    
+    weak var delegate: SideListViewControllerDelegate?
     
     private var profilePicture: UIImageView = {
         let image = UIImageView()
@@ -20,6 +26,7 @@ class SideListViewController: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
+    
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -35,6 +42,7 @@ class SideListViewController: UIViewController {
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         table.translatesAutoresizingMaskIntoConstraints = false
         table.alwaysBounceVertical = false
+        table.separatorStyle = .none
         return table
     }()
     
@@ -47,6 +55,14 @@ class SideListViewController: UIViewController {
         sideTable.delegate = self
         
         navigationController?.navigationBar.isHidden = true
+        
+        DBManager.shared.getUserInformation { [weak self] user in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.titleLabel.text = user
+        }
         
         profilePicture.clipsToBounds = true
         view.addSubview(profilePicture)
@@ -102,9 +118,9 @@ extension SideListViewController: UITableViewDataSource, UITableViewDelegate {
         switch index {
             
         case 0:
-            cell.textLabel?.text = "Profile"
+            cell.textLabel?.text = "Hesabım"
         case 1:
-            cell.textLabel?.text = "Logout"
+            cell.textLabel?.text = "Çıxış"
             
         default:
             return cell
@@ -114,15 +130,18 @@ extension SideListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         switch indexPath.row {
         case 0:
             print("Profile")
         case 1:
            do {
                try FirebaseAuth.Auth.auth().signOut()
-               let vc = HomeViewController()
                self.dismiss(animated: true)
-               vc.backToRoot()
+               delegate?.SideListViewControllerDidTapLogout()
+
          }
 
           catch {
