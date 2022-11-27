@@ -14,11 +14,19 @@ class DBManager {
     
     private let database = Database.database().reference()
     
-    public func addUser(with user: NetflixUser) {
+    public func addUser(with user: NetflixUser, completion: @escaping (Bool) -> Void) {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
             "last_name": user.lastName
-        ])
+        ]) { error, _ in
+            guard error == nil else {
+                print("Failed to add user to database")
+                completion(false)
+                return
+            }
+            
+            completion(true)
+        }
     }
     
     public func getUserInformation(completion: @escaping (String) -> Void){
@@ -50,17 +58,22 @@ class DBManager {
         
     }
     
+    
+    
 }
 
 struct NetflixUser {
     let firstName: String
     let lastName: String
     let emailAddress: String
-    //let profilePictureUrl: String
+    
     var safeEmail: String {
         var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
     }
     
+    var profilePictureFileName: String {
+        return "\(safeEmail)_profile_picture.png"
+    }
 }

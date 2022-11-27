@@ -38,6 +38,7 @@
 		0B813CFB291FE761005ECAD8 /* PreviewDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B813CFA291FE761005ECAD8 /* PreviewDetailTableViewCell.swift */; };
 		0B817E55292A8680000B08A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B817E54292A8680000B08A4 /* DBManager.swift */; };
 		0B82670F2928FA0100FAD6B6 /* SideListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B82670E2928FA0100FAD6B6 /* SideListViewController.swift */; };
+		0B86B8752931FE6900F705BB /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B86B8742931FE6900F705BB /* StorageManager.swift */; };
 		0BD3DDFF29119B9D0006A9B3 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3DDFE29119B9D0006A9B3 /* SearchResultViewController.swift */; };
 		0BE8DE20291039B800EB9AC3 /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE8DE1F291039B800EB9AC3 /* DetailedViewController.swift */; };
 		A72791E4BAE4F6A760B64E14 /* Pods_Netflix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06C8E30401D6959001A5D0 /* Pods_Netflix.framework */; };
@@ -75,6 +76,7 @@
 		0B813CFA291FE761005ECAD8 /* PreviewDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewDetailTableViewCell.swift; sourceTree = "<group>"; };
 		0B817E54292A8680000B08A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		0B82670E2928FA0100FAD6B6 /* SideListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideListViewController.swift; sourceTree = "<group>"; };
+		0B86B8742931FE6900F705BB /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		0BD3DDFE29119B9D0006A9B3 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0BE8DE1F291039B800EB9AC3 /* DetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 		108C2E32A985A70F64192635 /* Pods-Netflix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netflix.release.xcconfig"; path = "Target Support Files/Pods-Netflix/Pods-Netflix.release.xcconfig"; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				0B240842290AE9DF00C5CF25 /* APICaller.swift */,
 				0B817E54292A8680000B08A4 /* DBManager.swift */,
+				0B86B8742931FE6900F705BB /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				0B7215492916CC8100F3EB73 /* YoutubeResult.swift in Sources */,
 				0B72154D2916DDE700F3EB73 /* MoviePreviewViewModel.swift in Sources */,
 				0B2CF5C92906DA58004050FA /* SearchViewController.swift in Sources */,
+				0B86B8752931FE6900F705BB /* StorageManager.swift in Sources */,
 				0B2CF5B42906D758004050FA /* MainTabBarViewController.swift in Sources */,
 				0B4100EC290ECCEE00A607DB /* MovieTableVIewCell.swift in Sources */,
 				0B72154B2916D61700F3EB73 /* MoviePreviewViewController.swift in Sources */,
@@ -539,7 +543,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -569,7 +573,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

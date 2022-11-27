@@ -56,6 +56,20 @@ class SideListViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
+        DispatchQueue.main.async {
+            self.configureUserInformation()
+        }
+        
+        
+        profilePicture.clipsToBounds = true
+        view.addSubview(profilePicture)
+        view.addSubview(titleLabel)
+        view.addSubview(sideTable)
+        addConstraints()
+        
+    }
+    
+    private func configureUserInformation() {
         DBManager.shared.getUserInformation { [weak self] user in
             guard let strongSelf = self else {
                 return
@@ -64,12 +78,16 @@ class SideListViewController: UIViewController {
             strongSelf.titleLabel.text = user
         }
         
-        profilePicture.clipsToBounds = true
-        view.addSubview(profilePicture)
-        view.addSubview(titleLabel)
-        view.addSubview(sideTable)
-        addConstraints()
-        
+        StorageManager.shared.getProfilePicutre { [weak self] url in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            guard let url = URL(string: url) else {
+                return
+            }
+            strongSelf.profilePicture.sd_setImage(with: url, completed: nil)
+        }
     }
     
 

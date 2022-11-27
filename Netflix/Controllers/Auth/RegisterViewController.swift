@@ -10,18 +10,15 @@ import Firebase
 
 class RegisterViewController: UIViewController {
     
-    private var headerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
     private var headerImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "net")
-        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "profilepic")
+       
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.borderWidth = 2.0
+        imageView.layer.borderColor = UIColor.red.cgColor
+        imageView.layer.masksToBounds = false
         return imageView
     }()
     
@@ -133,11 +130,26 @@ class RegisterViewController: UIViewController {
         view.addSubview(registerButton)
         addConstraints()
         registerButton.addTarget(self, action: #selector(performTabbar(_:)), for: .touchUpInside)
+        
+        headerImage.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfilePicture))
+        headerImage.addGestureRecognizer(gesture)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        headerImage.layer.cornerRadius = headerImage.frame.size.width / 2
+        
+        headerImage.clipsToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         nameTextField.becomeFirstResponder()
+    }
+    
+    @objc private func didTapChangeProfilePicture() {
+        presentPhotoActionShit()
     }
     
     private func addConstraints() {
@@ -150,9 +162,10 @@ class RegisterViewController: UIViewController {
 //        ]
         
         let headerImageConstraints = [
-            headerImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            headerImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             headerImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            headerImage.heightAnchor.constraint(equalToConstant: 50)
+            headerImage.heightAnchor.constraint(equalToConstant: 90),
+            headerImage.widthAnchor.constraint(equalToConstant: 90)
         ]
         
         let nameTextFieldConstraints = [
@@ -234,8 +247,30 @@ class RegisterViewController: UIViewController {
             print("User signed in")
             strongSelf.showCreateAccount(title: "Hesab yaradıldı", message: "Yeni hesab yaradıldı. Xahiş olunur giriş edin")
             
-            print(name)
-            DBManager.shared.addUser(with: NetflixUser(firstName: name, lastName: surname, emailAddress: email))
+            let netflixUser = NetflixUser(firstName: name, lastName: surname, emailAddress: email)
+            
+            DBManager.shared.addUser(with: netflixUser) { done in
+                if done {
+                    //Upload photo
+                    guard let image = strongSelf.headerImage.image, let data = image.pngData() else {
+                        return
+                    }
+                    
+                    let fileName = netflixUser.profilePictureFileName
+                    
+                    StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { result in
+                        switch result {
+                        case .success(let downloadUrl):
+                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                            print(downloadUrl)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+
+            }
+            
             
             let tabVC = MainTabBarViewController()
             tabVC.modalPresentationStyle = .fullScreen
@@ -255,5 +290,42 @@ class RegisterViewController: UIViewController {
         }))
         
         present(alert, animated: true)
+    }
+}
+
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func presentPhotoActionShit() {
+        let actionSheet = UIAlertController(title: "Profil şəkili", message: "Profil şəklini təyin et", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Ləğv et", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Qalereyadan seç", style: .default, handler: {[weak self] _ in
+            self?.presentPhotoLibrary()
+        }))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func presentPhotoLibrary() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        
+        self.headerImage.image = selectedImage
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
