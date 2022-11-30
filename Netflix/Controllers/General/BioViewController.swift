@@ -48,7 +48,7 @@ class BioViewController: UIViewController {
         guard let movie = movie else {
             return
         }
-        headerView = BioHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 350))
+        headerView = BioHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 320))
         headerView?.configure(with: movie)
         bioTableView.tableHeaderView = headerView
     }

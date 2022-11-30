@@ -15,7 +15,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "Harry Potter"
+        label.text = "N/A"
         return label
     }()
     
@@ -24,7 +24,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18,weight: .regular)
         label.numberOfLines = 0
-        label.text = "This is the bio of movie"
+        label.text = "N/A"
         return label
     }()
     
@@ -71,8 +71,8 @@ class PreviewDetailTableViewCell: UITableViewCell {
         let titleLabelConstraints = [
             titleLabel.topAnchor.constraint(equalTo: content.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: 10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 18.0)
+            titleLabel.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: 10)
+          
         ]
         
         let overviewLabelConstraints = [

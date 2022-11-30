@@ -14,8 +14,10 @@ class MovieTableVIewCell: UITableViewCell {
     private let playButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
-        button.setImage(image, for: .normal)
+       
+        button.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -23,6 +25,16 @@ class MovieTableVIewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 22, weight: .regular)
+        return label
+    }()
+    
+    private let overviewLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16, weight: .thin)
+        label.numberOfLines = 0
+        label.textColor = .gray
         return label
     }()
     
@@ -39,6 +51,7 @@ class MovieTableVIewCell: UITableViewCell {
         
         contentView.addSubview(moviePosterImage)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(overviewLabel)
         contentView.addSubview(playButton)
         applyConstraints()
         
@@ -59,17 +72,28 @@ class MovieTableVIewCell: UITableViewCell {
         
         let titleLabelConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 20),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -20)
+        ]
+        
+        let overviewLabelConstraint = [
+            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            overviewLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 20),
+            overviewLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -20),
+            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ]
         
         let playButtonConstraints = [
             playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            playButton.widthAnchor.constraint(equalToConstant: 30),
+            playButton.heightAnchor.constraint(equalToConstant: 30)
         ]
         
         
         NSLayoutConstraint.activate(moviePosterImageConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(overviewLabelConstraint)
         NSLayoutConstraint.activate(playButtonConstraints)
         
     }
@@ -81,6 +105,7 @@ class MovieTableVIewCell: UITableViewCell {
         moviePosterImage.sd_setImage(with: url, completed: nil)
   
         titleLabel.text = model.titleName
+        overviewLabel.text = model.overView
         
     }
 

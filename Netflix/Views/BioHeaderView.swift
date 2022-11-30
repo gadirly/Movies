@@ -78,7 +78,6 @@ class BioHeaderView: UIView {
             movieImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             movieImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             movieImageView.heightAnchor.constraint(equalToConstant: 200)
-            
         ]
         
         let infoButtonConstraints = [
