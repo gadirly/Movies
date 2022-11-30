@@ -10,12 +10,12 @@ import UIKit
 
 
 protocol HeroHeaderUiViewDelegate: AnyObject {
-    func heroHeaderUiViewDidTapStart (viewMode: MoviePreviewViewModel)
+    func heroHeaderUiViewDidTapStart (viewMode: Movie)
 }
 
 class HeroHeaderUiView: UIView {
     
-    var movieViewModel: MoviePreviewViewModel?
+    var movieModel: Movie?
     
     weak var delegate: HeroHeaderUiViewDelegate?
     
@@ -66,8 +66,9 @@ class HeroHeaderUiView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(heroImageView)
         addGradient()
+        addSubview(heroImageView)
+        
         addSubview(playButton)
         addSubview(downloadButton)
         applyConstraints()
@@ -75,11 +76,11 @@ class HeroHeaderUiView: UIView {
         playButton.addTarget(self, action: #selector(performStart(_:)), for: .touchUpInside)
     }
     
-    public func configure(with model: MovieViewModel, previewModel: MoviePreviewViewModel) {
+    public func configure(with model: Movie) {
         print("Ishleyir")
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.posterUrl)") else {return}
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.poster_path ?? "")") else {return}
         
-        movieViewModel = previewModel
+        movieModel = model
   
         heroImageView.sd_setImage(with: url, completed: nil)
     }
@@ -114,13 +115,13 @@ class HeroHeaderUiView: UIView {
     
     @objc func performStart(_ sender: UIButton) {
     
-        guard let movieViewModel = movieViewModel else {
+        guard let movieModel = movieModel else {
             
             return
         }
         
-        print(movieViewModel.title)
-        delegate?.heroHeaderUiViewDidTapStart(viewMode: movieViewModel)
+        
+        delegate?.heroHeaderUiViewDidTapStart(viewMode: movieModel)
         
     }
 }

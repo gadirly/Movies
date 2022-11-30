@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
         
-        var sideMenuVc = SideListViewController()
+        let sideMenuVc = SideListViewController()
         sideMenuVc.delegate = self
         
         menu = SideMenuNavigationController(rootViewController: sideMenuVc)
@@ -76,6 +76,12 @@ class HomeViewController: UIViewController {
       
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        
+    }
+    
     public func backToRoot(){
         self.navigationController?.navigationController?.popToRootViewController(animated: true)
        
@@ -87,20 +93,9 @@ class HomeViewController: UIViewController {
         APICaller.shared.getTrendingMovies { [weak self] result in
             switch result {
             case .success(let movie):
-                let randomMovie = movie.randomElement()
-                self?.randomTrendingMovie = randomMovie
-                let viewModel = MovieViewModel(titleName: "", posterUrl: randomMovie?.poster_path ?? "", overView: "")
-                guard let title = randomMovie?.original_title, let overview = randomMovie?.overview else {
-                    return
-                }
-                APICaller.shared.getMovie(with: "\(title) trailer") { result in
-                    switch result {
-                    case.success(let video):
-                        self?.headerView?.configure(with: viewModel, previewModel: MoviePreviewViewModel(title: title, youtubeView: video, movieOverview: overview))
-                    case.failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
+                guard let randomMovie = movie.randomElement() else
+                {return}
+                self?.headerView?.configure(with: randomMovie)
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -263,10 +258,10 @@ extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiV
         backToRoot()
     }
     
-    func heroHeaderUiViewDidTapStart(viewMode: MoviePreviewViewModel) {
+    func heroHeaderUiViewDidTapStart(viewMode: Movie) {
         print("delegate gelir")
         DispatchQueue.main.async { [weak self] in
-            let vc = PreviewTableViewController()
+            let vc = BioViewController()
             vc.configure(with: viewMode)
             self?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -274,11 +269,11 @@ extension HomeViewController: CollectionViewTableViewCellDelegate, HeroHeaderUiV
     
 
     
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewMode: MoviePreviewViewModel) {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewMode: Movie) {
         
         
         DispatchQueue.main.async { [weak self] in
-            let vc = PreviewTableViewController()
+            let vc = BioViewController()
             vc.configure(with: viewMode)
             self?.navigationController?.pushViewController(vc, animated: true)
         }

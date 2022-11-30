@@ -95,9 +95,12 @@ class PreviewDetailTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
-    public func configure(with model: MoviePreviewViewModel) {
-        self.titleLabel.text = model.title
-        self.overviewLabel.text = model.movieOverview
+    public func configure(with model: Movie) {
+        
+       
+        
+        self.titleLabel.text = model.original_title
+        self.overviewLabel.text = model.overview
     }
     
     

@@ -27,9 +27,7 @@ class UpcomingViewController: UIViewController {
         
         title = "Tezliklə"
         view.addSubview(upcomingTableView)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
+    
         fetchMovies()
         DispatchQueue.main.async {
         
@@ -85,28 +83,15 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = PreviewTableViewController()
+        let vc = BioViewController()
+        
 
         let movie = upcomingMovies[indexPath.row]
         
-            
-            APICaller.shared.getMovie(with: "\(movie.original_title ?? "") trailer") { [weak self] result in
-                switch result {
-                case.success(let video):
-                    DispatchQueue.main.async {
-                        
-                        vc.configure(with: MoviePreviewViewModel(title: movie.original_title ?? "", youtubeView: video, movieOverview: movie.overview ?? ""))
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    }
-                case.failure(let error):
-                    print("Error burdadir")
-                    print(error.localizedDescription)
-                }
-            }
         
+        vc.configure(with: movie)
         
-        
-        
+        navigationController?.pushViewController(vc, animated: true)
         
         
     }

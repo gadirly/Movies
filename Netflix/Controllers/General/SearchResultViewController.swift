@@ -60,27 +60,13 @@ extension SearchResultViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
-        let vc = PreviewTableViewController()
+       
+        let vc = BioViewController()
         let selectedMovie = movie[indexPath.row]
+        vc.configure(with: selectedMovie)
+        present(vc, animated: true)
         
-        guard let originalTitle = selectedMovie.original_title, let overview = selectedMovie.overview else {
-            return
-        }
-        
-        
-            APICaller.shared.getMovie(with: "\(originalTitle) trailer") { [weak self ]result in
-                
-                switch result {
-                case.success(let video):
-                    DispatchQueue.main.async {
-                        vc.configure(with: MoviePreviewViewModel(title: originalTitle, youtubeView: video, movieOverview: overview))
-                        self?.present(vc, animated: true)
-                    }
-                case.failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
+       
         
     }
     

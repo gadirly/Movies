@@ -26,21 +26,31 @@ class DetailedViewController: UIViewController {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = false
+        imageView.layer.borderColor = UIColor.red.cgColor
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    private let profilePic: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.borderWidth = 2.0
+        imageView.layer.masksToBounds = false
+        imageView.layer.borderColor = UIColor.red.cgColor
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(posterImageView)
+        view.addSubview(profilePic)
         view.addSubview(titleLabel)
         view.addSubview(overviewLabel)
         applyConstraints()
-        
-       
-        
     }
     
     
@@ -56,7 +66,7 @@ class DetailedViewController: UIViewController {
     private func applyConstraints() {
         
         let posterImageViewConstraints = [
-            posterImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            posterImageView.topAnchor.constraint(equalTo: view.topAnchor),
             posterImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -240),
             posterImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             posterImageView.widthAnchor.constraint(equalToConstant: 260)
