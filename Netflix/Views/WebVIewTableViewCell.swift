@@ -58,15 +58,15 @@ class WebVIewTableViewCell: UITableViewCell {
     }
     
     
-    public func configure(with model: MoviePreviewViewModel) {
-        
-        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {
+    public func configure(with model: Movie, video: VideoElement) {
+        print("Web view gelir")
+        print()
+        guard let url = URL(string: "https://www.youtube.com/embed/\(video.id.videoId)") else {
             return
         }
         
         DispatchQueue.main.async {
-            
-        
+
             self.webView.load(URLRequest(url: url))
         }
     }

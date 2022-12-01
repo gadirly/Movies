@@ -16,6 +16,17 @@ class PreviewDetailTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.text = "N/A"
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let releaseDataLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14, weight: .thin)
+        label.tintColor = .gray
+        label.layer.opacity = 0.4
+        label.text = "N/A"
         return label
     }()
     
@@ -24,7 +35,6 @@ class PreviewDetailTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18,weight: .regular)
         label.numberOfLines = 0
-        label.text = "N/A"
         return label
     }()
     
@@ -49,6 +59,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(releaseDataLabel)
         contentView.addSubview(overviewLabel)
         contentView.addSubview(downloadButton)
         contentView.backgroundColor = .systemBackground
@@ -66,6 +77,11 @@ class PreviewDetailTableViewCell: UITableViewCell {
             content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             content.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ]
+        
+        let releaseDateLabelConstraints = [
+            releaseDataLabel.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 10),
+            releaseDataLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4)
         ]
         
         let titleLabelConstraints = [
@@ -91,6 +107,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate(contentConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(releaseDateLabelConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
@@ -98,7 +115,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
     public func configure(with model: Movie) {
         
        
-        
+        self.releaseDataLabel.text = model.release_date
         self.titleLabel.text = model.original_title
         self.overviewLabel.text = model.overview
     }

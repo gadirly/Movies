@@ -43,6 +43,9 @@ class MovieTableVIewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 15
+        imageView.layer.borderColor = UIColor.red.cgColor
+        imageView.layer.borderWidth = 1.0
         return imageView
     }()
 

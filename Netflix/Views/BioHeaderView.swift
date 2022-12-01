@@ -7,7 +7,16 @@
 
 import UIKit
 
+protocol BioHeaderViewDelegate: AnyObject {
+    func BioHeaderViewInfoBtnSelected(model: Movie)
+    
+    func BioHeaderViewPlayBtnSelected(model: Movie)
+}
+
 class BioHeaderView: UIView {
+    
+    var movie: Movie?
+    weak var delegate: BioHeaderViewDelegate?
     
     private var movieImageView: UIImageView = {
         let image = UIImageView()
@@ -23,7 +32,8 @@ class BioHeaderView: UIView {
     private let profilePic: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.borderWidth = 2.0
+        imageView.layer.borderWidth = 1.0
+        imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = false
         imageView.layer.borderColor = UIColor.red.cgColor
@@ -62,6 +72,24 @@ class BioHeaderView: UIView {
         addSubview(infoButton)
         addSubview(playButton)
         addConstraints()
+        
+        infoButton.addTarget(self, action: #selector(infoTapped(_:)), for: .touchUpInside)
+        
+        playButton.addTarget(self, action: #selector(playTapped(_:)), for: .touchUpInside)
+    }
+    
+    @objc func infoTapped(_ sender: UIButton) {
+        guard let movie = movie else {
+            return
+        }
+        delegate?.BioHeaderViewInfoBtnSelected(model: movie)
+    }
+    
+    @objc func playTapped(_ sender: UIButton) {
+        guard let movie = movie else {
+            return
+        }
+        delegate?.BioHeaderViewPlayBtnSelected(model: movie)
     }
     
     private func addConstraints() {
@@ -69,7 +97,7 @@ class BioHeaderView: UIView {
         let profilePicConstraints = [
             profilePic.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: -90),
             profilePic.centerXAnchor.constraint(equalTo: movieImageView.centerXAnchor),
-            profilePic.heightAnchor.constraint(equalToConstant: 170),
+            profilePic.heightAnchor.constraint(equalToConstant: 180),
             profilePic.widthAnchor.constraint(equalToConstant: 130)
         ]
         
@@ -102,7 +130,8 @@ class BioHeaderView: UIView {
     
     public func configure(with model: Movie) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.poster_path ?? "")") else {return}
-
+        
+        self.movie = model
         movieImageView.sd_setImage(with: url, completed: nil)
         profilePic.sd_setImage(with: url, completed: nil)
     }

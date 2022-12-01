@@ -50,13 +50,14 @@ class BioViewController: UIViewController {
         }
         headerView = BioHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 320))
         headerView?.configure(with: movie)
+        headerView?.delegate = self
         bioTableView.tableHeaderView = headerView
     }
 
 
 }
 
-extension BioViewController: UITableViewDelegate, UITableViewDataSource {
+extension BioViewController: UITableViewDelegate, UITableViewDataSource, BioHeaderViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PreviewDetailTableViewCell.identifier, for: indexPath) as? PreviewDetailTableViewCell else {
             return UITableViewCell()
@@ -74,6 +75,20 @@ extension BioViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
+    }
+    
+    func BioHeaderViewInfoBtnSelected(model: Movie) {
+        let vc = InformationViewController()
+        present(vc, animated: true)
+    }
+    
+    func BioHeaderViewPlayBtnSelected(model: Movie) {
+        let vc = PreviewTableViewController()
+        guard let movie = movie else {
+            return
+        }
+        vc.configure(with: movie)
+        present(vc, animated: true)
     }
 }
 
