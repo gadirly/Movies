@@ -46,6 +46,7 @@ class DetailedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
         view.addSubview(posterImageView)
         view.addSubview(profilePic)
         view.addSubview(titleLabel)

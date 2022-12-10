@@ -27,18 +27,23 @@ class APICaller {
         
         guard let url = URL(string: "\(Constants.baseUrl)/3/trending/movie/day?api_key=\(Constants.API_KEY)") else {return}
         
+        print(url)
+        
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             
             guard let data = data, error == nil else {return}
             
             do {
                 let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
+                
                 completion(.success(results.results))
             }
             catch {
                 print("Error parsing JSON: \(error.localizedDescription)")
                 completion(.failure(APIError.failedToGetData))
             }
+            
+            
             
             
         }
@@ -165,6 +170,7 @@ class APICaller {
             
             do {
                 let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
+                
                 completion(.success(results.results))
             }
             catch {
@@ -186,6 +192,7 @@ class APICaller {
         guard let url = URL(string: "\(Constants.youtubeBaseUrl)/youtube/v3/search?q=\(query)&key=\(Constants.youtubeApiKey)") else {
             return
         }
+        print(url)
       
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             print(url)
@@ -206,6 +213,27 @@ class APICaller {
         
         task.resume()
         
+    }
+    
+    func getMovieById(movie: String, completion: @escaping (Result<Movie,Error>) -> Void) {
+        //
+        
+        guard let url = URL(string: "\(Constants.baseUrl)/3/movie/\(movie)?api_key=\(Constants.API_KEY)&language=en-US") else {return}
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else {return}
+            
+            do {
+                let results = try JSONDecoder().decode(Movie.self, from: data)
+                completion(.success(results))
+            }
+            catch {
+                completion(.failure(APIError.failedToGetData))
+            }
+        }
+        
+        task.resume()
+       
     }
     
 }

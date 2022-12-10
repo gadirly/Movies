@@ -29,6 +29,21 @@ class DBManager {
         }
     }
     
+    public func addToFavorites(with user: NetflixUser, movieId: String, completion: @escaping (Bool) -> Void){
+        database.child(user.safeEmail).setValue([
+            "favorites": [movieId]
+        ]) { error, _ in
+            guard error == nil else {
+                print("Failed to add to favorite")
+                completion(false)
+                return
+            }
+            
+            completion(true)
+        }
+        
+    }
+    
     public func getUserInformation(completion: @escaping (String) -> Void){
         
         

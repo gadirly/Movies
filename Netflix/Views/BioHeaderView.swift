@@ -25,7 +25,7 @@ class BioHeaderView: UIView {
         image.image = UIImage(named: "heroHeaderImg")
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.opacity = 0.3
+        
         return image
     }()
     
@@ -44,7 +44,7 @@ class BioHeaderView: UIView {
     
     private let infoButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "info.circle"), for: .normal)
+        button.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
         button.tintColor = .gray
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -66,8 +66,9 @@ class BioHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addGradient()
+        
         addSubview(movieImageView)
+        addGradient()
         addSubview(profilePic)
         addSubview(infoButton)
         addSubview(playButton)

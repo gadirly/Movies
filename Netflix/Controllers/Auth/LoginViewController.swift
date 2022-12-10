@@ -107,10 +107,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        if Auth.auth().currentUser == nil {
-//            let tabVc = MainTabBarViewController()
-//            navigationController?.pushViewController(tabVc, animated: true)
-//        }
+        if Auth.auth().currentUser != nil {
+            let tabVc = MainTabBarViewController()
+            navigationController?.pushViewController(tabVc, animated: true)
+        }
         emailTextField.becomeFirstResponder()
     }
     

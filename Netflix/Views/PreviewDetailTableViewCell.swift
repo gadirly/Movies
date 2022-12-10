@@ -30,6 +30,14 @@ class PreviewDetailTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let adultLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.text = "18+"
+        return label
+    }()
+    
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +70,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         contentView.addSubview(releaseDataLabel)
         contentView.addSubview(overviewLabel)
         contentView.addSubview(downloadButton)
+        contentView.addSubview(adultLabel)
         contentView.backgroundColor = .systemBackground
        
         addConstraints()
@@ -77,6 +86,11 @@ class PreviewDetailTableViewCell: UITableViewCell {
             content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             content.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ]
+        
+        let adultLabelConstraints = [
+            adultLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            adultLabel.leadingAnchor.constraint(equalTo: releaseDataLabel.trailingAnchor, constant: 20)
         ]
         
         let releaseDateLabelConstraints = [
@@ -106,6 +120,7 @@ class PreviewDetailTableViewCell: UITableViewCell {
         ]
         
         NSLayoutConstraint.activate(contentConstraints)
+        NSLayoutConstraint.activate(adultLabelConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(releaseDateLabelConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
@@ -118,6 +133,10 @@ class PreviewDetailTableViewCell: UITableViewCell {
         self.releaseDataLabel.text = model.release_date
         self.titleLabel.text = model.original_title
         self.overviewLabel.text = model.overview
+        print("Film 18+: \(String(describing: model.adult))")
+        if model.adult == false {
+            self.adultLabel.isHidden = true
+        }
     }
     
     

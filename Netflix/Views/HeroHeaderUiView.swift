@@ -66,9 +66,9 @@ class HeroHeaderUiView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addGradient()
-        addSubview(heroImageView)
         
+        addSubview(heroImageView)
+        addGradient()
         addSubview(playButton)
         addSubview(downloadButton)
         applyConstraints()
