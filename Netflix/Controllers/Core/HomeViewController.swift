@@ -9,7 +9,6 @@ import UIKit
 import SideMenu
 
 
-
 enum Sections: Int {
     case TrendingMovies = 0
     case TrendingTv = 1
@@ -64,7 +63,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.dataSource = self
         
         
-        configureNavbar()
+        
         
         headerView = HeroHeaderUiView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
         homeFeedTable.tableHeaderView = headerView
@@ -74,6 +73,11 @@ class HomeViewController: UIViewController {
         configureHeroHeaderView()
         
       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavbar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -128,8 +132,10 @@ class HomeViewController: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
         
-        navigationController?.navigationBar.tintColor = .label
-      
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.tintColor = .label
+        self.navigationController?.navigationBar.isTranslucent = true
         
     }
     

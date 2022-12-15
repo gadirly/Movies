@@ -28,7 +28,7 @@ class BioViewController: UIViewController {
         
         view.addSubview(bioTableView)
         
-        
+        navigationController?.navigationBar.tintColor = .label
         bioTableView.delegate = self
         bioTableView.dataSource = self
 

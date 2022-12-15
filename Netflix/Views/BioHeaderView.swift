@@ -9,7 +9,6 @@ import UIKit
 
 protocol BioHeaderViewDelegate: AnyObject {
     func BioHeaderViewInfoBtnSelected(model: Movie)
-    
     func BioHeaderViewPlayBtnSelected(model: Movie)
 }
 
@@ -68,7 +67,7 @@ class BioHeaderView: UIView {
         super.init(frame: frame)
         
         addSubview(movieImageView)
-        addGradient()
+        
         addSubview(profilePic)
         addSubview(infoButton)
         addSubview(playButton)
@@ -139,15 +138,14 @@ class BioHeaderView: UIView {
     
     
     private func addGradient() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
+        let gradient = CAGradientLayer()
+        gradient.frame = movieImageView.bounds
+        gradient.colors = [
             UIColor.clear.cgColor,
             UIColor.systemBackground.cgColor
         ]
-        
-
-        gradientLayer.frame = bounds
-        layer.addSublayer(gradientLayer)
+        movieImageView.layer.addSublayer(gradient)
+        print("Test2")
     }
     
     required init?(coder: NSCoder) {
@@ -156,7 +154,7 @@ class BioHeaderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-     
+        addGradient()
     }
     
 }

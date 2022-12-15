@@ -34,7 +34,6 @@ class MovieTableVIewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16, weight: .thin)
         label.numberOfLines = 0
-        label.textColor = .gray
         return label
     }()
     
@@ -43,61 +42,96 @@ class MovieTableVIewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
         imageView.layer.borderColor = UIColor.red.cgColor
         imageView.layer.borderWidth = 1.0
         return imageView
     }()
+    
+    
+
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(moviePosterImage)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(overviewLabel)
-        contentView.addSubview(playButton)
+//        contentView.addSubview(playButton)
+        
         applyConstraints()
         
+        
+    }
+    
+    private func addGradient() {
+        if let gradientLayer = (moviePosterImage.layer.sublayers?.compactMap { $0 as? CAGradientLayer })?.first {
+            gradientLayer.frame = moviePosterImage.bounds
+            gradientLayer.colors = [
+                UIColor.clear.cgColor,
+                UIColor.systemBackground.cgColor
+            ]
+            print("Test1")
+        } else {
+            
+            let gradient = CAGradientLayer()
+            gradient.frame = moviePosterImage.bounds
+            gradient.colors = [
+                UIColor.clear.cgColor,
+                UIColor.systemBackground.cgColor
+            ]
+            moviePosterImage.layer.addSublayer(gradient)
+            print("Test2")
+     }
     }
     
     required init(coder: NSCoder) {
         fatalError()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        addGradient()
+       
+    }
+    
     private func applyConstraints() {
         
         let moviePosterImageConstraints = [
-            moviePosterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            moviePosterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            moviePosterImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             moviePosterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            moviePosterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            moviePosterImage.widthAnchor.constraint(equalToConstant: 100)
+            moviePosterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
         ]
         
         let titleLabelConstraints = [
-            titleLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 20),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -20)
+            titleLabel.leadingAnchor.constraint(equalTo: moviePosterImage.leadingAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: moviePosterImage.topAnchor, constant: 400),
+            titleLabel.trailingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: -20)
         ]
         
         let overviewLabelConstraint = [
-            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
-            overviewLabel.leadingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: 20),
-            overviewLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -20),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            overviewLabel.leadingAnchor.constraint(equalTo: moviePosterImage.leadingAnchor, constant: 20),
+            overviewLabel.trailingAnchor.constraint(equalTo: moviePosterImage.trailingAnchor, constant: -20),
+            overviewLabel.bottomAnchor.constraint(equalTo: moviePosterImage.bottomAnchor, constant: -10)
         ]
         
-        let playButtonConstraints = [
-            playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            playButton.widthAnchor.constraint(equalToConstant: 30),
-            playButton.heightAnchor.constraint(equalToConstant: 30)
-        ]
+//        let playButtonConstraints = [
+//            playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+//            playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+//            playButton.widthAnchor.constraint(equalToConstant: 30),
+//            playButton.heightAnchor.constraint(equalToConstant: 30)
+//        ]
         
         
         NSLayoutConstraint.activate(moviePosterImageConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraint)
-        NSLayoutConstraint.activate(playButtonConstraints)
+//        NSLayoutConstraint.activate(playButtonConstraints)
         
     }
     
