@@ -29,10 +29,17 @@ class DBManager {
         }
     }
     
-    public func addToFavorites(with user: NetflixUser, movieId: String, completion: @escaping (Bool) -> Void){
-        database.child(user.safeEmail).setValue([
-            "favorites": [movieId]
-        ]) { error, _ in
+    public func addToFavorites(movieId: String, completion: @escaping (Bool) -> Void){
+        guard let userEmail = Auth.auth().currentUser?.email else {
+            return
+        }
+        
+        var safeEmail = userEmail.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        
+        database.child(safeEmail).child("Favorites").childByAutoId().setValue(
+            movieId
+        ) { error, _ in
             guard error == nil else {
                 print("Failed to add to favorite")
                 completion(false)
@@ -41,6 +48,27 @@ class DBManager {
             
             completion(true)
         }
+        
+        
+        
+    }
+    
+    public func getFavouriteMovies(completion: @escaping ([String: Any]) -> ()){
+        guard let userEmail = Auth.auth().currentUser?.email else {
+            return
+        }
+        
+        var safeEmail = userEmail.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        
+        database.child(safeEmail).child("Favorites").observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else {
+                return
+            }
+           
+            completion(value)
+        }
+        
         
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class BioViewController: UIViewController {
     
@@ -78,8 +79,16 @@ extension BioViewController: UITableViewDelegate, UITableViewDataSource, BioHead
     }
     
     func BioHeaderViewInfoBtnSelected(model: Movie) {
-        let vc = InformationViewController()
-        present(vc, animated: true)
+        
+       
+        DBManager.shared.addToFavorites(movieId: String(model.id)) { isAdded in
+            if isAdded == true {
+                print("\(model.original_title ?? "") added to favorites")
+            }
+            else {
+                print("Error while adding")
+            }
+        }
     }
     
     func BioHeaderViewPlayBtnSelected(model: Movie) {
