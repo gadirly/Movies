@@ -73,7 +73,7 @@ class MovieTableVIewCell: UITableViewCell {
                 UIColor.clear.cgColor,
                 UIColor.systemBackground.cgColor
             ]
-            print("Test1")
+        
         } else {
             
             let gradient = CAGradientLayer()
@@ -83,7 +83,7 @@ class MovieTableVIewCell: UITableViewCell {
                 UIColor.systemBackground.cgColor
             ]
             moviePosterImage.layer.addSublayer(gradient)
-            print("Test2")
+       
      }
     }
     

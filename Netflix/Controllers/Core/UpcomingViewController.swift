@@ -29,8 +29,9 @@ class UpcomingViewController: UIViewController {
         view.addSubview(upcomingTableView)
     
         fetchMovies()
-        DispatchQueue.main.async {
         
+        DispatchQueue.main.async {
+            
             self.upcomingTableView.reloadData()
         }
         
@@ -39,6 +40,7 @@ class UpcomingViewController: UIViewController {
 
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         upcomingTableView.frame = view.bounds
     }
     

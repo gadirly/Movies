@@ -53,7 +53,7 @@ class DBManager {
         
     }
     
-    public func getFavouriteMovies(completion: @escaping ([String: Any]) -> ()){
+    public func getFavouriteMovies(completion: @escaping ([String: String]) -> ()){
         guard let userEmail = Auth.auth().currentUser?.email else {
             return
         }
@@ -62,10 +62,10 @@ class DBManager {
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         
         database.child(safeEmail).child("Favorites").observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else {
+            guard let value = snapshot.value as? [String: String] else {
                 return
             }
-           
+            
             completion(value)
         }
         
