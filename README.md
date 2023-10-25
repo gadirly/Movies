@@ -17,8 +17,7 @@
 <h1>Screenshots</h1>
 
 <!-- Replace the image URLs with your actual screenshot URLs -->
-<img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969386988.jpeg" alt="Screenshot 1" width="200"/>
-<img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969387350.jpeg" alt="Screenshot 2" width="200"/>
+<img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969386988.jpeg" alt="Screenshot 1" width="200"/><img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969387350.jpeg" alt="Screenshot 2" width="200"/>
 <img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969387771.jpeg" alt="Screenshot 3" width="200"/>
 <img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969388090.jpeg" alt="Screenshot 4" width="200"/>
 <img src="https://github.com/gadirly/Movies/blob/main/Screenshots/1692969388946.jpeg" alt="Screenshot 4" width="200"/>
